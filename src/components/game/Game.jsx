@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import styles from './Game.module.css'
 import GameOption from '../gameOption/GameOption'
-import Icon from '../icon/Icon'
+import GameInfo from '../gameInfo/GameInfo'
+
 
 const winnerTable = [
     [0, 1, 2],
@@ -10,7 +11,7 @@ const winnerTable = [
     [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
-    [o, 4, 8],
+    [0, 4, 8],
     [2, 4, 6]
 ]
 
@@ -20,7 +21,7 @@ function Game() {
     const [winner, setWinner] = useState(0)
 
     const handleClick = (pos) => {
-        if (gameState[pos] === 0 && winnwer === 0) {
+        if (gameState[pos] === 0 && winner === 0) {
             let newGameState = [...gameState]
             newGameState[pos] = currentPlayer
             
@@ -32,10 +33,16 @@ function Game() {
         winnerTable.forEach((line) => {
             const values = line.map((pos) => gameState[pos])
             const sum = values.reduce((sum, value) => sum + value)
-            if(sum === 3 || sum === -3) setWinner(sum/ 3)
-
+            if (sum === 3 || sum === -3) {
+                setWinner(sum / 3)
+            }
         })
-
+    }
+    
+    const handleReset = () => { 
+        setGameState(Array(9).fill(0))
+        setWinner(0)
+        
     }
 
     useEffect(() => {
@@ -56,17 +63,12 @@ function Game() {
                 )
             }
             </div>
-            <div className={styles.gameInfo}>
-                <h4>Próximo a jogar: </h4>
-                {
-                    currentPlayer === 1 && <Icon iconName="circle" />
-                }
-                {
-                    currentPlayer === -1 && <Icon iconName="x" />
-                }
-            </div>
+            <GameInfo
+                currentPlayer={currentPlayer}
+                winner={winner}
+                onReset ={handleReset}
+            />
         </div>
-        
     )
 }
 
