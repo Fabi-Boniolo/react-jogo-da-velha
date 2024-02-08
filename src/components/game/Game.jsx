@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import styles from './Game.module.css'
 import GameOption from '../gameOption/GameOption'
 import GameInfo from '../gameInfo/GameInfo'
+import Score from '../score/Score'
 
 
 const winnerTable = [
@@ -69,6 +70,7 @@ const verifyDraw = () => {
     }, [winner])
 
     return (
+        <>
         <div className={ styles.gameContent}>
             <div className={styles.game}>
             {
@@ -89,7 +91,9 @@ const verifyDraw = () => {
                 onReset={handleReset}
                 isDraw={draw}
             />
-        </div>
+            </div>
+            <Score />
+        </>
     )
 }
 
